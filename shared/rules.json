@@ -1,1 +1,18 @@
-{"version":1,"rules":[]}
+{
+  "version": "1.0",
+  "thresholds": {
+    "young_infant_max_months": 2,
+    "fever_days_max": 3
+  },
+  "red_danger_signs": [
+    "lethargic_or_unconscious",
+    "unable_to_feed",
+    "vomiting_everything",
+    "convulsions",
+    "chest_indrawing",
+    "stridor_in_calm_child"
+  ],
+  "red_acoustic_triggers": [
+    "wheeze_detected"
+  ]
+}

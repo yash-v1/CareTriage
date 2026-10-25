@@ -1,1 +1,74 @@
-{"version":1,"cases":[]}
+[
+  {
+    "case_id": "TC_01",
+    "description": "RED - Acoustic wheeze detected on 14-month-old.",
+    "mock_symptoms": {
+      "age_months": 14,
+      "fever_days": 1,
+      "lethargic_or_unconscious": false,
+      "unable_to_feed": false,
+      "vomiting_everything": false,
+      "convulsions": false,
+      "chest_indrawing": false,
+      "stridor_in_calm_child": false
+    },
+    "mock_acoustic": {
+      "wheeze_detected": true
+    },
+    "expected_triage_status": "RED"
+  },
+  {
+    "case_id": "TC_02",
+    "description": "RED - Lethargic child, no wheeze.",
+    "mock_symptoms": {
+      "age_months": 24,
+      "fever_days": 2,
+      "lethargic_or_unconscious": true,
+      "unable_to_feed": false,
+      "vomiting_everything": false,
+      "convulsions": false,
+      "chest_indrawing": false,
+      "stridor_in_calm_child": false
+    },
+    "mock_acoustic": {
+      "wheeze_detected": false
+    },
+    "expected_triage_status": "RED"
+  },
+  {
+    "case_id": "TC_03",
+    "description": "YELLOW - Fever for 4 days, no danger signs.",
+    "mock_symptoms": {
+      "age_months": 36,
+      "fever_days": 4,
+      "lethargic_or_unconscious": false,
+      "unable_to_feed": false,
+      "vomiting_everything": false,
+      "convulsions": false,
+      "chest_indrawing": false,
+      "stridor_in_calm_child": false
+    },
+    "mock_acoustic": {
+      "wheeze_detected": false
+    },
+    "expected_triage_status": "YELLOW"
+  },
+  {
+    "case_id": "TC_04",
+    "description": "GREEN - Minor fever for 1 day, active child.",
+    "mock_symptoms": {
+      "age_months": 18,
+      "fever_days": 1,
+      "lethargic_or_unconscious": false,
+      "unable_to_feed": false,
+      "vomiting_everything": false,
+      "convulsions": false,
+      "chest_indrawing": false,
+      "stridor_in_calm_child": false
+    },
+    "mock_acoustic": {
+      "wheeze_detected": false
+    },
+    "expected_triage_status": "GREEN"
+  }
+]
