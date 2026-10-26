@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "fields.schema.json",
+  "title": "TriageFields",
+  "description": "The confirmed clinical fields both engines evaluate. Names match shared/rules.json. Any field may be missing or null.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "pregnant":           { "type": ["boolean", "null"] },
+    "gestWeeks":          { "type": ["number", "null"], "minimum": 0, "maximum": 45 },
+    "sys":                { "type": ["number", "null"], "minimum": 40, "maximum": 300 },
+    "dia":                { "type": ["number", "null"], "minimum": 20, "maximum": 200 },
+    "headache":           { "type": ["boolean", "null"] },
+    "blurredVision":      { "type": ["boolean", "null"] },
+    "ageMonths":          { "type": ["number", "null"], "minimum": 0, "maximum": 1440 },
+    "rr":                 { "type": ["number", "null"], "minimum": 5, "maximum": 120 },
+    "chestIndrawing":     { "type": ["boolean", "null"] },
+    "stridor":            { "type": ["boolean", "null"] },
+    "unableToFeed":       { "type": ["boolean", "null"] },
+    "lethargic":          { "type": ["boolean", "null"] },
+    "convulsions":        { "type": ["boolean", "null"] },
+    "vomitingEverything": { "type": ["boolean", "null"] },
+    "wheeze":             { "type": ["boolean", "null"] },
+    "feverDays":          { "type": ["number", "null"], "minimum": 0, "maximum": 60 },
+    "bleeding":           { "type": ["boolean", "null"] }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "qr-payload.schema.json",
+  "title": "QrPayload",
+  "description": "Compact triage summary carried in the QR code and in RED alerts. Short keys keep it to a few hundred bytes. Only include a key if the value is known. Decode it with the code table in docs/contract.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "id", "t", "tier", "rules"],
+  "properties": {
+    "v": { "const": 1 },
+    "id": { "type": "string", "minLength": 4, "maxLength": 20, "description": "Case id. Random, not a name or phone number." },
+    "t": { "type": "integer", "description": "Unix seconds when triage ran." },
+    "tier": { "enum": ["GREEN", "YELLOW", "RED"] },
+    "rules": {
+      "type": "array",
+      "description": "Ids of every rule that fired. Empty for default GREEN.",
+      "items": { "type": "string" }
+    },
+    "am":  { "type": "integer", "minimum": 0, "maximum": 1440, "description": "ageMonths" },
+    "gw":  { "type": "integer", "minimum": 0, "maximum": 45, "description": "gestWeeks (implies pregnant)" },
+    "bp":  {
+      "type": "array", "minItems": 2, "maxItems": 2,
+      "items": { "type": "integer", "minimum": 20, "maximum": 300 },
+      "description": "[sys, dia]"
+    },
+    "rr":  { "type": "integer", "minimum": 5, "maximum": 120 },
+    "fd":  { "type": "integer", "minimum": 0, "maximum": 60, "description": "feverDays" },
+    "sx": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["HA", "BLUR", "CIND", "STRI", "NOFD", "BLD", "LETH", "CONV", "VOM", "WHZ"] },
+      "description": "Symptom codes that were true"
+    }
+  }
+}

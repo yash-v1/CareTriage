@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "red-alert.schema.json",
+  "title": "RedAlertMessage",
+  "description": "WebSocket message pushed by the gateway to the PHC Doctor Live Alert view. It wraps the same compact summary used in the QR code. alertId makes queued alerts safe to resend after being offline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["type", "v", "alertId", "sentAt", "summary"],
+  "properties": {
+    "type": { "const": "RED_ALERT" },
+    "v": { "const": 1 },
+    "alertId": { "type": "string", "minLength": 6, "maxLength": 40 },
+    "sentAt": { "type": "integer", "description": "Unix seconds when the alert was sent to the gateway." },
+    "queuedOffline": { "type": "boolean", "description": "True if it waited in the phone's IndexedDB queue before sending." },
+    "summary": { "$ref": "qr-payload.schema.json" },
+    "flag": { "type": "string" },
+    "action": { "type": "string" },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat", "lng"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lng": { "type": "number", "minimum": -180, "maximum": 180 },
+        "accuracyM": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "triage-response.schema.json",
+  "title": "TriageResponse",
+  "description": "POST /triage reply. The tier and rulesFired come only from shared/rules.json. The offline engine returns the same shape, so the UI has one result type.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId", "tier", "rulesFired", "fields", "lowConfidence", "rulesVersion", "disclaimer"],
+  "properties": {
+    "requestId": { "type": "string" },
+    "tier": { "enum": ["GREEN", "YELLOW", "RED"] },
+    "rulesFired": {
+      "type": "array",
+      "description": "Every rule that matched, in rules.json order. Empty means the default GREEN applied.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "tier", "flag", "action", "source"],
+        "properties": {
+          "id": { "type": "string" },
+          "tier": { "enum": ["GREEN", "YELLOW", "RED"] },
+          "flag": { "type": "string" },
+          "action": { "type": "string" },
+          "source": { "type": "string" }
+        }
+      }
+    },
+    "defaultApplied": {
+      "type": "object",
+      "description": "Present only when rulesFired is empty: the default block from rules.json.",
+      "required": ["id", "tier", "flag", "action", "source"],
+      "properties": {
+        "id": { "type": "string" },
+        "tier": { "const": "GREEN" },
+        "flag": { "type": "string" },
+        "action": { "type": "string" },
+        "source": { "type": "string" }
+      }
+    },
+    "fields": { "$ref": "fields.schema.json" },
+    "lowConfidence": {
+      "type": "array",
+      "description": "Field names the extractor was unsure about, for the worker to confirm.",
+      "items": { "type": "string" }
+    },
+    "missingForSafety": {
+      "type": "array",
+      "description": "Fields whose absence could hide a danger, e.g. ageMonths. The UI should ask for them before showing GREEN.",
+      "items": { "type": "string" }
+    },
+    "wheeze": {
+      "type": "object",
+      "description": "Experimental supporting signal from breath audio. Never changes the tier on its own unless mapped into fields.wheeze for PED_RED_WHEEZE.",
+      "additionalProperties": false,
+      "required": ["experimental", "score"],
+      "properties": {
+        "experimental": { "const": true },
+        "score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "rulesVersion": { "type": ["integer", "string"] },
+    "disclaimer": { "type": "string" }
+  }
+}

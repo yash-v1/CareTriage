@@ -1,1 +1,276 @@
-{"version":1,"rules":[]}
+{
+  "version": "1.0",
+  "format": "declarative-v1",
+  "status": "DRAFT - thresholds need clinician review; sources go in docs/PROTOCOLS.md",
+  "thresholds": {
+    "young_infant_max_months": 2,
+    "fever_days_max": 3
+  },
+  "red_danger_signs": [
+    "lethargic_or_unconscious",
+    "unable_to_feed",
+    "vomiting_everything",
+    "convulsions",
+    "chest_indrawing",
+    "stridor_in_calm_child"
+  ],
+  "red_acoustic_triggers": [
+    "wheeze_detected"
+  ],
+  "fieldAliases": {
+    "age_months": "ageMonths",
+    "fever_days": "feverDays",
+    "lethargic_or_unconscious": "lethargic",
+    "unable_to_feed": "unableToFeed",
+    "vomiting_everything": "vomitingEverything",
+    "convulsions": "convulsions",
+    "chest_indrawing": "chestIndrawing",
+    "stridor_in_calm_child": "stridor",
+    "wheeze_detected": "wheeze"
+  },
+  "tierOrder": [
+    "GREEN",
+    "YELLOW",
+    "RED"
+  ],
+  "fields": {
+    "pregnant": "boolean",
+    "gestWeeks": "number",
+    "sys": "number",
+    "dia": "number",
+    "headache": "boolean",
+    "blurredVision": "boolean",
+    "ageMonths": "number",
+    "rr": "number",
+    "chestIndrawing": "boolean",
+    "stridor": "boolean",
+    "unableToFeed": "boolean",
+    "lethargic": "boolean",
+    "convulsions": "boolean",
+    "vomitingEverything": "boolean",
+    "wheeze": "boolean",
+    "feverDays": "number",
+    "bleeding": "boolean"
+  },
+  "operators": [
+    "gte",
+    "gt",
+    "lte",
+    "lt",
+    "eq"
+  ],
+  "missingFieldRule": "A condition on a missing or null field is false. It never throws.",
+  "rules": [
+    {
+      "id": "MAT_RED_PE",
+      "track": "maternal",
+      "tier": "RED",
+      "when": {
+        "all": [
+          {
+            "pregnant": true
+          },
+          {
+            "gestWeeks": {
+              "gte": 20
+            }
+          },
+          {
+            "any": [
+              {
+                "sys": {
+                  "gte": 140
+                }
+              },
+              {
+                "dia": {
+                  "gte": 90
+                }
+              }
+            ]
+          },
+          {
+            "any": [
+              {
+                "headache": true
+              },
+              {
+                "blurredVision": true
+              }
+            ]
+          }
+        ]
+      },
+      "flag": "Imminent eclampsia / severe gestational hypertension",
+      "action": "Arrange 108 transport immediately. Keep airway clear.",
+      "source": "see docs/PROTOCOLS.md"
+    },
+    {
+      "id": "PED_RED_DANGER",
+      "track": "child",
+      "tier": "RED",
+      "when": {
+        "all": [
+          {
+            "ageMonths": {
+              "lt": 60
+            }
+          },
+          {
+            "any": [
+              {
+                "chestIndrawing": true
+              },
+              {
+                "stridor": true
+              },
+              {
+                "unableToFeed": true
+              },
+              {
+                "lethargic": true
+              },
+              {
+                "convulsions": true
+              },
+              {
+                "vomitingEverything": true
+              }
+            ]
+          }
+        ]
+      },
+      "flag": "General danger sign or severe pneumonia sign (WHO IMCI)",
+      "action": "Arrange 108 transport immediately.",
+      "source": "see docs/PROTOCOLS.md"
+    },
+    {
+      "id": "PED_RED_WHEEZE",
+      "track": "child",
+      "tier": "RED",
+      "experimental": true,
+      "when": {
+        "all": [
+          {
+            "ageMonths": {
+              "lt": 60
+            }
+          },
+          {
+            "wheeze": true
+          }
+        ]
+      },
+      "flag": "Wheeze detected on breath scan (experimental acoustic signal)",
+      "action": "Arrange 108 transport immediately.",
+      "source": "Kirit's online design; see openQuestions"
+    },
+    {
+      "id": "PED_YELLOW_FASTBREATH_INFANT",
+      "track": "child",
+      "tier": "YELLOW",
+      "when": {
+        "all": [
+          {
+            "ageMonths": {
+              "lt": 12
+            }
+          },
+          {
+            "rr": {
+              "gte": 50
+            }
+          }
+        ]
+      },
+      "flag": "Fast breathing (infant under 12 months)",
+      "action": "Refer to PHC within 24 hours.",
+      "source": "see docs/PROTOCOLS.md"
+    },
+    {
+      "id": "PED_YELLOW_FASTBREATH_CHILD",
+      "track": "child",
+      "tier": "YELLOW",
+      "when": {
+        "all": [
+          {
+            "ageMonths": {
+              "gte": 12
+            }
+          },
+          {
+            "ageMonths": {
+              "lt": 60
+            }
+          },
+          {
+            "rr": {
+              "gte": 40
+            }
+          }
+        ]
+      },
+      "flag": "Fast breathing (child 12 to 59 months)",
+      "action": "Refer to PHC within 24 hours.",
+      "source": "see docs/PROTOCOLS.md"
+    },
+    {
+      "id": "FEB_RED_SEVERE",
+      "track": "febrile",
+      "tier": "RED",
+      "when": {
+        "all": [
+          {
+            "feverDays": {
+              "gt": 3
+            }
+          },
+          {
+            "any": [
+              {
+                "bleeding": true
+              },
+              {
+                "lethargic": true
+              }
+            ]
+          }
+        ]
+      },
+      "flag": "Possible severe dengue / sepsis",
+      "action": "Arrange 108 transport immediately.",
+      "source": "see docs/PROTOCOLS.md"
+    },
+    {
+      "id": "FEB_YELLOW_PROLONGED",
+      "track": "febrile",
+      "tier": "YELLOW",
+      "when": {
+        "all": [
+          {
+            "feverDays": {
+              "gt": 3
+            }
+          }
+        ]
+      },
+      "flag": "Fever for more than 3 days",
+      "action": "Refer to PHC within 24 hours.",
+      "source": "Kirit's online design; see openQuestions"
+    }
+  ],
+  "default": {
+    "id": "DEFAULT_GREEN",
+    "tier": "GREEN",
+    "flag": "No danger sign or referral rule matched",
+    "action": "Counsel on hydration and rest. Re-examine if danger signs appear.",
+    "source": "see docs/PROTOCOLS.md"
+  },
+  "openQuestions": [
+    "Wheeze alone sets RED (Kirit's design, rule PED_RED_WHEEZE). The acoustic signal is experimental, so a clinician should decide whether it can raise RED on its own or only add a flag.",
+    "Fever longer than 3 days with no danger signs is YELLOW (Kirit's TC_03). The first draft of the offline rules said GREEN. Needs clinician decision.",
+    "Lethargy alone is RED for children under 60 months (Kirit's TC_02). The first draft only counted it together with fever over 3 days.",
+    "young_infant_max_months (2) is kept for compatibility but no rule uses it yet. WHO fast-breathing cut-offs differ for infants under 2 months; verify and add a rule if needed.",
+    "Child rules only apply when ageMonths is known. A danger sign with age missing stays GREEN. Decide whether the app should instead force the worker to enter an age."
+  ]
+}

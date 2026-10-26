@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "triage-request.schema.json",
+  "title": "TriageRequest",
+  "description": "POST /triage body. Send `fields` when the worker has confirmed them, or `transcript` to have the server extract them. At least one is required. Breath audio travels separately (multipart on the gateway) and is not part of this JSON.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId", "lang"],
+  "anyOf": [
+    { "required": ["fields"] },
+    { "required": ["transcript"] }
+  ],
+  "properties": {
+    "requestId": { "type": "string", "minLength": 6, "maxLength": 40 },
+    "lang": { "enum": ["en", "ta", "hi"] },
+    "transcript": { "type": "string", "maxLength": 2000 },
+    "fields": { "$ref": "fields.schema.json" },
+    "hasBreathClip": { "type": "boolean", "description": "True if a breath clip was uploaded alongside this request." },
+    "location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lat", "lng"],
+      "properties": {
+        "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "lng": { "type": "number", "minimum": -180, "maximum": 180 },
+        "accuracyM": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}
