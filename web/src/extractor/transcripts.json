@@ -1,1 +1,304 @@
-[]
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "en-mat-red-digits",
+      "lang": "en",
+      "transcript": "24 year old pregnant woman at 32 weeks gestation, BP 150 over 100, complaining of severe headache.",
+      "expect": {
+        "fields": {
+          "ageMonths": 288,
+          "pregnant": true,
+          "gestWeeks": 32,
+          "sys": 150,
+          "dia": 100,
+          "headache": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-mat-red-words",
+      "lang": "en",
+      "transcript": "Pregnant thirty weeks, blood pressure one hundred and forty over ninety with blurred vision.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 30,
+          "sys": 140,
+          "dia": 90,
+          "blurredVision": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-mat-shorthand-bp",
+      "lang": "en",
+      "transcript": "Pregnant at twenty-four weeks, BP one forty by ninety, has a headache.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 24,
+          "sys": 140,
+          "dia": 90,
+          "headache": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-mat-months-approx",
+      "lang": "en",
+      "transcript": "Seven months pregnant, BP 160/105, severe headache and blurry vision.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 30,
+          "sys": 160,
+          "dia": 105,
+          "headache": true,
+          "blurredVision": true
+        },
+        "lowConfidence": ["gestWeeks"]
+      }
+    },
+    {
+      "id": "en-mat-negated-symptoms",
+      "lang": "en",
+      "transcript": "Pregnant 28 weeks, BP 130/80, no headache or blurred vision.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 28,
+          "sys": 130,
+          "dia": 80,
+          "headache": false,
+          "blurredVision": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-mat-mixed-negation",
+      "lang": "en",
+      "transcript": "Pregnant 34 weeks, BP 145/95, no headache but has blurred vision.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 34,
+          "sys": 145,
+          "dia": 95,
+          "headache": false,
+          "blurredVision": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-infant-fast-breathing",
+      "lang": "en",
+      "transcript": "Eight month old infant, respiratory rate 54, no chest indrawing, feeding well.",
+      "expect": {
+        "fields": {
+          "ageMonths": 8,
+          "rr": 54,
+          "chestIndrawing": false,
+          "unableToFeed": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-child-fast-breathing-words",
+      "lang": "en",
+      "transcript": "Two years old child breathing at forty five breaths per minute.",
+      "expect": {
+        "fields": {
+          "ageMonths": 24,
+          "rr": 45
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-danger-indrawing",
+      "lang": "en",
+      "transcript": "14 months old baby with lower chest indrawing and RR 48.",
+      "expect": {
+        "fields": {
+          "ageMonths": 14,
+          "rr": 48,
+          "chestIndrawing": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-danger-stridor-not-feeding",
+      "lang": "en",
+      "transcript": "Six months old infant with stridor and unable to feed.",
+      "expect": {
+        "fields": {
+          "ageMonths": 6,
+          "stridor": true,
+          "unableToFeed": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-not-feeding-phrase",
+      "lang": "en",
+      "transcript": "Nine month old baby is not breastfeeding and is lethargic.",
+      "expect": {
+        "fields": {
+          "ageMonths": 9,
+          "unableToFeed": true,
+          "lethargic": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-convulsions-vomiting",
+      "lang": "en",
+      "transcript": "Ten month old infant vomiting everything and had convulsions, no wheezing.",
+      "expect": {
+        "fields": {
+          "ageMonths": 10,
+          "vomitingEverything": true,
+          "convulsions": true,
+          "wheeze": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-wheeze",
+      "lang": "en",
+      "transcript": "Fourteen months old child with wheezing and fever for 1 day.",
+      "expect": {
+        "fields": {
+          "ageMonths": 14,
+          "feverDays": 1,
+          "wheeze": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-ped-combined-age",
+      "lang": "en",
+      "transcript": "Child is two years and six months old, RR 42, stridor absent.",
+      "expect": {
+        "fields": {
+          "ageMonths": 30,
+          "rr": 42,
+          "stridor": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-feb-red-bleeding",
+      "lang": "en",
+      "transcript": "10 year old child with high fever for five days and gum bleeding.",
+      "expect": {
+        "fields": {
+          "ageMonths": 120,
+          "feverDays": 5,
+          "bleeding": true
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-feb-red-lethargic",
+      "lang": "en",
+      "transcript": "Adult 30 years old, four days of fever, patient is lethargic and drowsy, without bleeding.",
+      "expect": {
+        "fields": {
+          "ageMonths": 360,
+          "feverDays": 4,
+          "lethargic": true,
+          "bleeding": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-feb-duration-missing",
+      "lang": "en",
+      "transcript": "Three year old child has fever and headache, no bleeding.",
+      "expect": {
+        "fields": {
+          "ageMonths": 36,
+          "headache": true,
+          "bleeding": false
+        },
+        "lowConfidence": ["feverDays"]
+      }
+    },
+    {
+      "id": "en-feb-negated-fever",
+      "lang": "en",
+      "transcript": "Five year old child, no fever, no bleeding, feeding well.",
+      "expect": {
+        "fields": {
+          "ageMonths": 60,
+          "bleeding": false,
+          "unableToFeed": false
+        },
+        "lowConfidence": []
+      }
+    },
+    {
+      "id": "en-bp-inverted-low-confidence",
+      "lang": "en",
+      "transcript": "Pregnant 26 weeks, BP 90/140, headache.",
+      "expect": {
+        "fields": {
+          "pregnant": true,
+          "gestWeeks": 26,
+          "sys": 90,
+          "dia": 140,
+          "headache": true
+        },
+        "lowConfidence": ["sys", "dia"]
+      }
+    },
+    {
+      "id": "en-contradiction-low-confidence",
+      "lang": "en",
+      "transcript": "Patient has headache, later says no headache.",
+      "expect": {
+        "fields": {
+          "headache": true
+        },
+        "lowConfidence": ["headache"]
+      }
+    },
+    {
+      "id": "en-infant-weeks-old",
+      "lang": "en",
+      "transcript": "Six weeks old baby, RR 55.",
+      "expect": {
+        "fields": {
+          "ageMonths": 1,
+          "rr": 55
+        },
+        "lowConfidence": ["ageMonths"]
+      }
+    },
+    {
+      "id": "en-empty-transcript",
+      "lang": "en",
+      "transcript": "   ",
+      "expect": {
+        "fields": {},
+        "lowConfidence": []
+      }
+    }
+  ]
+}
