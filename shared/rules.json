@@ -1,7 +1,10 @@
 {
   "version": "1.0",
+<<<<<<< HEAD
   "format": "declarative-v1",
   "status": "DRAFT - thresholds need clinician review; sources go in docs/PROTOCOLS.md",
+=======
+>>>>>>> a56837fd682a03089ab80ff5c48110b469f32eff
   "thresholds": {
     "young_infant_max_months": 2,
     "fever_days_max": 3
@@ -16,6 +19,7 @@
   ],
   "red_acoustic_triggers": [
     "wheeze_detected"
+<<<<<<< HEAD
   ],
   "fieldAliases": {
     "age_months": "ageMonths",
@@ -272,5 +276,7 @@
     "Lethargy alone is RED for children under 60 months (Kirit's TC_02). The first draft only counted it together with fever over 3 days.",
     "young_infant_max_months (2) is kept for compatibility but no rule uses it yet. WHO fast-breathing cut-offs differ for infants under 2 months; verify and add a rule if needed.",
     "Child rules only apply when ageMonths is known. A danger sign with age missing stays GREEN. Decide whether the app should instead force the worker to enter an age."
+=======
+>>>>>>> a56837fd682a03089ab80ff5c48110b469f32eff
   ]
 }
