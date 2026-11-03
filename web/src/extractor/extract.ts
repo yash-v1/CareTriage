@@ -100,7 +100,14 @@ function extractSymptoms(text: string, lang: SupportedLang, fields: Fields, lowC
     const pattern = dict[field];
     let sawPositive = false, sawNegative = false;
     for (const phrase of pattern.positive) {
-      const regex = new RegExp(`\\b${escapeRegex(phrase)}\\b`, "gi");
+      let regex: RegExp;
+      if (lang === "en") {
+        regex = new RegExp(`\\b${escapeRegex(phrase)}\\b`, "gi");
+      } else {
+        const flexiblePhrase = phrase.split(/\s+/).map(escapeRegex).join('\\s*');
+        regex = new RegExp(flexiblePhrase, "gi");
+      }
+
       let match: RegExpExecArray | null;
       while ((match = regex.exec(text)) !== null) {
         if (pattern.selfNegating) sawPositive = true;
@@ -110,7 +117,14 @@ function extractSymptoms(text: string, lang: SupportedLang, fields: Fields, lowC
     }
     if (pattern.healthyOverride) {
       for (const phrase of pattern.healthyOverride) {
-        const regex = new RegExp(`\\b${escapeRegex(phrase)}\\b`, "gi");
+        let regex: RegExp;
+        if (lang === "en") {
+          regex = new RegExp(`\\b${escapeRegex(phrase)}\\b`, "gi");
+        } else {
+          const flexiblePhrase = phrase.split(/\s+/).map(escapeRegex).join('\\s*');
+          regex = new RegExp(flexiblePhrase, "gi");
+        }
+
         let match: RegExpExecArray | null;
         while ((match = regex.exec(text)) !== null) {
           if (isNegated(text, match.index, match.index + match[0].length)) sawPositive = true;

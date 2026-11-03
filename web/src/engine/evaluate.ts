@@ -77,7 +77,7 @@ export function evaluate(fields: Fields, rulesFile: RulesFile): EvalResult {
     source,
   }));
 
-  const tier = fired.reduce<Tier>(
+  const highestTier = fired.reduce<Tier>(
     (highest, rule) => (rank(rule.tier) > rank(highest) ? rule.tier : highest),
     rulesFile.default.tier,
   );
@@ -85,17 +85,21 @@ export function evaluate(fields: Fields, rulesFile: RulesFile): EvalResult {
   const missingForSafety = SAFETY_FIELDS.filter(
     (name) => fields[name] === undefined || fields[name] === null,
   );
+  
+  let finalMissing = Array.from(missingForSafety);
+  if (fields.pregnant === true || fields.gestWeeks != null) {
+    finalMissing = finalMissing.filter(field => field !== "ageMonths");
+  }
 
   return {
-    tier,
+    tier: highestTier,
     rulesFired,
-    ...(rulesFired.length === 0 ? { defaultApplied: rulesFile.default } : {}),
-    missingForSafety: [...missingForSafety],
+    defaultApplied: rulesFired.length === 0 ? rulesFile.default : undefined,
+    missingForSafety: finalMissing,
     rulesVersion: rulesFile.version,
   };
 }
 
-/** Wrap an evaluation into the full response shape the UI and the server both use. */
 export function triageOffline(
   requestId: string,
   fields: Fields,

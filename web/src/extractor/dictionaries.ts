@@ -1,212 +1,51 @@
-// Symptom dictionaries keyed by language.
-// Phase 3A covers English ("en"). Tamil ("ta") and Hindi ("hi") will be added in Phase 3B.
-
 import type { BooleanField } from "../engine/types";
 
 export type SupportedLang = "en" | "ta" | "hi";
 
 export interface SymptomPattern {
-  /** Phrases that indicate the condition is present (true). */
   positive: string[];
-  /**
-   * Optional phrases that explicitly indicate the healthy/false state
-   * (used for unableToFeed where "not feeding" is positive and "feeding well" is false).
-   */
+  selfNegating?: boolean; 
   healthyOverride?: string[];
-  /**
-   * If true, positive phrases already contain words like "not" or "unable"
-   * so pre-negation checks should not invert them.
-   */
-  selfNegating?: boolean;
 }
 
-export const SYMPTOM_DICTIONARIES: Record<
-  SupportedLang,
-  Record<BooleanField, SymptomPattern>
-> = {
+export const SYMPTOM_DICTIONARIES: Record<SupportedLang, Record<BooleanField, SymptomPattern>> = {
   en: {
-    pregnant: {
-      positive: [
-        "pregnant",
-        "pregnancy",
-        "expecting a baby",
-        "antenatal",
-        "gestation",
-        "gravida",
-      ],
-    },
-    headache: {
-      positive: [
-        "severe headache",
-        "headache",
-        "head ache",
-        "head pain",
-        "pain in head",
-        "pain in the head",
-        "aching head",
-      ],
-    },
-    blurredVision: {
-      positive: [
-        "blurred vision",
-        "blurry vision",
-        "vision is blurred",
-        "vision is blurry",
-        "vision blurred",
-        "cannot see clearly",
-        "can't see clearly",
-        "unable to see clearly",
-        "dim vision",
-        "visual disturbance",
-        "spots before eyes",
-        "flashing lights",
-      ],
-    },
-    chestIndrawing: {
-      positive: [
-        "chest indrawing",
-        "chest in-drawing",
-        "chest in drawing",
-        "lower chest indrawing",
-        "chest drawing in",
-        "chest pulls in",
-        "chest pulling in",
-        "ribs pulling in",
-        "subcostal retraction",
-        "subcostal indrawing",
-      ],
-    },
-    stridor: {
-      positive: [
-        "stridor",
-        "harsh noise when breathing",
-        "harsh breathing sound",
-        "noisy breathing in",
-        "inspiratory stridor",
-      ],
-    },
-    unableToFeed: {
-      selfNegating: true,
-      positive: [
-        "unable to feed",
-        "not able to feed",
-        "unable to breastfeed",
-        "unable to drink",
-        "not feeding",
-        "not breastfeeding",
-        "not drinking",
-        "not taking feeds",
-        "cannot feed",
-        "can't feed",
-        "cannot drink",
-        "can't drink",
-        "refusing feed",
-        "refusing feeds",
-        "refuses to feed",
-        "refusing to feed",
-        "refuses breastmilk",
-        "stopped feeding",
-        "poor feeding",
-      ],
-      healthyOverride: [
-        "feeding well",
-        "feeds well",
-        "able to feed",
-        "breastfeeding well",
-        "drinking well",
-        "taking feeds well",
-        "feeding normally",
-      ],
-    },
-    lethargic: {
-      positive: [
-        "lethargic",
-        "lethargy",
-        "unconscious",
-        "drowsy",
-        "very sleepy",
-        "difficult to wake",
-        "hard to wake",
-        "not responding",
-        "unresponsive",
-        "listless",
-        "floppy",
-      ],
-    },
-    convulsions: {
-      positive: [
-        "convulsions",
-        "convulsion",
-        "convulsing",
-        "seizures",
-        "seizure",
-        "having fits",
-        "fits",
-      ],
-    },
-    vomitingEverything: {
-      positive: [
-        "vomiting everything",
-        "vomits everything",
-        "throwing up everything",
-        "throws up everything",
-        "cannot keep anything down",
-        "can't keep anything down",
-        "unable to keep anything down",
-        "persistent vomiting",
-        "intractable vomiting",
-      ],
-    },
-    wheeze: {
-      positive: [
-        "wheeze",
-        "wheezing",
-        "whistling sound when breathing",
-        "whistling breathing",
-      ],
-    },
-    bleeding: {
-      positive: [
-        "bleeding",
-        "blood in stool",
-        "blood in vomit",
-        "vomiting blood",
-        "gum bleeding",
-        "bleeding gums",
-        "nosebleed",
-        "nose bleed",
-        "epistaxis",
-        "vaginal bleeding",
-        "hemorrhage",
-        "black tarry stool",
-      ],
-    },
+    pregnant: { positive: ["pregnant", "pregnancy", "expecting"] },
+    headache: { positive: ["headache", "head aches", "head hurts", "migraine"] },
+    blurredVision: { positive: ["blurred vision", "blurry vision", "can't see clearly"] },
+    chestIndrawing: { positive: ["chest indrawing", "lower chest indrawing", "ribs pulling", "chest drawing"] },
+    stridor: { positive: ["stridor", "harsh noise when breathing", "wheezing noise on breath in"] },
+    unableToFeed: { positive: ["unable to feed", "not feeding", "can't breastfeed", "not eating", "stopped feeding"] },
+    lethargic: { positive: ["lethargic", "unconscious", "not waking up", "unresponsive", "limp"] },
+    convulsions: { positive: ["convulsions", "fits", "seizures", "shaking uncontrollably"] },
+    vomitingEverything: { positive: ["vomiting everything", "throws up everything", "can't keep anything down"] },
+    wheeze: { positive: ["wheeze", "wheezing", "whistling sound"] },
+    bleeding: { positive: ["bleeding", "blood loss", "hemorrhage"] },
   },
-  // Placeholders for Phase 3B
   ta: {
-    pregnant: { positive: [] },
-    headache: { positive: [] },
-    blurredVision: { positive: [] },
-    chestIndrawing: { positive: [] },
-    stridor: { positive: [] },
-    unableToFeed: { selfNegating: true, positive: [], healthyOverride: [] },
-    lethargic: { positive: [] },
-    convulsions: { positive: [] },
-    vomitingEverything: { positive: [] },
-    wheeze: { positive: [] },
-    bleeding: { positive: [] },
+    pregnant: { positive: ["garbam", "கர்ப்பம்", "கர்ப்பிணி"] },
+    headache: { positive: ["thala vali", "thalai vali", "தலைவலி", "தலை வலி"] },
+    blurredVision: { positive: ["mangalana parvai", "மங்கலான பார்வை", "கண் தெரியவில்லை"] },
+    chestIndrawing: { positive: ["nenju kuzhi", "நெஞ்சு குழி", "மூச்சு விட சிரமம்"] },
+    stridor: { positive: ["kazhuthil saththam", "மூச்சு சத்தம்"] },
+    unableToFeed: { positive: ["paal kudikala", "பால் குடிக்கவில்லை", "சாப்பிடவில்லை"] },
+    lethargic: { positive: ["mayakkam", "மயக்கம்", "சோர்வு"] },
+    convulsions: { positive: ["valippu", "வலிப்பு", "ஜன்னி"] },
+    vomitingEverything: { positive: ["ellam vaanthi", "எல்லாம் வாந்தி", "தொடர் வாந்தி"] },
+    wheeze: { positive: ["wheezing", "இழுப்பு", "மூச்சுத்திணறல்"] },
+    bleeding: { positive: ["raththam", "ரத்தம்", "இரத்தம் வருது"] },
   },
   hi: {
-    pregnant: { positive: [] },
-    headache: { positive: [] },
-    blurredVision: { positive: [] },
-    chestIndrawing: { positive: [] },
-    stridor: { positive: [] },
-    unableToFeed: { selfNegating: true, positive: [], healthyOverride: [] },
-    lethargic: { positive: [] },
-    convulsions: { positive: [] },
-    vomitingEverything: { positive: [] },
-    wheeze: { positive: [] },
-    bleeding: { positive: [] },
-  },
+    pregnant: { positive: ["garbhavati", "गर्भवती", "प्रेग्नेंट"] },
+    headache: { positive: ["sir dard", "सिर दर्द", "सरदर्द"] },
+    blurredVision: { positive: ["dhundhla", "धुंधला", "साफ नहीं दिख रहा"] },
+    chestIndrawing: { positive: ["chhati andar", "छाती धंसना", "पसली चलना"] },
+    stridor: { positive: ["saans mein awaz", "सांस में आवाज", "खरखर"] },
+    unableToFeed: { positive: ["doodh nahi pi raha", "दूध नहीं पी रहा", "खा नहीं रहा"] },
+    lethargic: { positive: ["behoosh", "बेहोश", "सुस्त", "उठ नहीं रहा"] },
+    convulsions: { positive: ["daure", "दौरे", "झटके"] },
+    vomitingEverything: { positive: ["sab kuch ulti", "सब कुछ उल्टी", "लगातार उल्टी"] },
+    wheeze: { positive: ["seeti ki awaz", "सांस फूलना", "सीटी की आवाज"] },
+    bleeding: { positive: ["khoon behna", "खून बहना", "रक्तस्राव"] },
+  }
 };
