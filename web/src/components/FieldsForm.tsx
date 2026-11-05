@@ -1,4 +1,3 @@
-import React from 'react';
 import type { Fields, BooleanField, NumberField } from '../engine/types';
 
 interface Props {
