@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { generateQrPayload } from '../handoff/qrPayload';
 import { generateSmsLink } from '../handoff/sms';
@@ -16,16 +16,22 @@ const bgColors: Record<Tier, string> = {
 };
 
 export function ResultScreen({ result, onReset }: Props) {
-  const { tier, rulesFired, defaultApplied, missingForSafety, disclaimer, requestId } = result;
+  // 1. Destructure the newly needed fields and lowConfidence arrays
+  const { tier, rulesFired, defaultApplied, missingForSafety, disclaimer, requestId, fields, lowConfidence } = result;
   const qrData = generateQrPayload(result);
   
   const [isLocating, setIsLocating] = useState(false);
+
+  // 2. Calculate the Confidence Score
+  const totalFields = Object.keys(fields || {}).length;
+  const confidenceScore = totalFields > 0 
+    ? Math.round(((totalFields - lowConfidence.length) / totalFields) * 100) 
+    : 100;
 
   const handleEmergencySMS = async () => {
     setIsLocating(true);
     const link = await generateSmsLink(result);
     setIsLocating(false);
-    // This triggers the phone's native SMS app
     window.location.href = link; 
   };
 
@@ -60,7 +66,7 @@ export function ResultScreen({ result, onReset }: Props) {
           ) : null}
         </div>
 
-        {/* 108 Emergency SMS Button (Only shows for RED) */}
+        {/* 108 Emergency SMS Button */}
         {tier === 'RED' && (
           <button 
             onClick={handleEmergencySMS}
@@ -70,6 +76,27 @@ export function ResultScreen({ result, onReset }: Props) {
             <span className="text-xl">🚨</span>
             <span>{isLocating ? "Getting GPS..." : "Dispatch 108 Ambulance (SMS)"}</span>
           </button>
+        )}
+
+        {/* AI Confidence Score Card */}
+        {totalFields > 0 && (
+          <div className="bg-black/10 p-5 rounded-xl mb-6">
+            <div className="flex justify-between items-end mb-2">
+              <h3 className="font-bold text-lg">AI Data Confidence</h3>
+              <span className="text-xl font-bold">{confidenceScore}%</span>
+            </div>
+            <div className="w-full bg-black/20 rounded-full h-2">
+              <div 
+                className="bg-current h-2 rounded-full transition-all duration-1000" 
+                style={{ width: `${confidenceScore}%` }}
+              ></div>
+            </div>
+            <p className="text-sm opacity-80 mt-2">
+              {lowConfidence.length === 0 
+                ? "Perfect extraction, no manual overrides required." 
+                : `${lowConfidence.length} flagged fields required manual verification.`}
+            </p>
+          </div>
         )}
 
         {/* QR Hand-off Card */}

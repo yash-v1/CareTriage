@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { isSpeechRecognitionSupported, startListening } from '../voice/recognition';
 
 interface Props {
@@ -57,13 +57,18 @@ export function SpeakButton({ lang, onTranscriptUpdate, disabled }: Props) {
         disabled={disabled && !isListening}
         className={`relative flex items-center justify-center w-20 h-20 rounded-full transition-all shadow-lg ${
           isListening 
-            ? 'bg-red-500 hover:bg-red-600 animate-pulse' 
+            ? 'bg-red-500 hover:bg-red-600' 
             : 'bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:bg-gray-400'
         }`}
         aria-label={isListening ? "Stop listening" : "Start speaking"}
       >
+        {/* Radar Ping Animation */}
+        {isListening && (
+          <div className="absolute inset-0 rounded-full ring-6 ring-red-400/60 animate-pulse"></div>
+        )}
+
         {/* Simple SVG Mic Icon */}
-        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-8 h-8 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           {isListening ? (
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           ) : (
@@ -72,7 +77,7 @@ export function SpeakButton({ lang, onTranscriptUpdate, disabled }: Props) {
         </svg>
       </button>
       
-      <p className={`text-sm font-semibold ${isListening ? 'text-red-500' : 'text-gray-600'}`}>
+      <p className={`text-sm font-semibold transition-colors ${isListening ? 'text-red-500' : 'text-gray-600'}`}>
         {isListening ? "Listening..." : "Tap to Speak"}
       </p>
       
