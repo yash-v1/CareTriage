@@ -1,0 +1,9 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QR Payload Snapshot Tests (4 Sample Cases) > Sample Case 1: Maternal severe preeclampsia (RED) 1`] = `"{"v":1,"id":"req-mat-001","t":1761200000,"tier":"RED","rules":["MAT_RED_PE"],"gw":32,"bp":[150,100],"sx":["HA","BLUR"]}"`;
+
+exports[`QR Payload Snapshot Tests (4 Sample Cases) > Sample Case 2: Pediatric general danger signs with chest indrawing and convulsions (RED) 1`] = `"{"v":1,"id":"req-ped-red-002","t":1761200000,"tier":"RED","rules":["PED_RED_DANGER","PED_YELLOW_FASTBREATH_CHILD"],"am":18,"rr":52,"sx":["CIND","CONV"]}"`;
+
+exports[`QR Payload Snapshot Tests (4 Sample Cases) > Sample Case 3: Pediatric infant fast breathing with fever (YELLOW) 1`] = `"{"v":1,"id":"req-ped-yellow-003","t":1761200000,"tier":"YELLOW","rules":["PED_YELLOW_FASTBREATH_INFANT"],"am":8,"rr":56,"fd":2}"`;
+
+exports[`QR Payload Snapshot Tests (4 Sample Cases) > Sample Case 4: Routine pediatric mild fever with no danger signs (GREEN) 1`] = `"{"v":1,"id":"req-ped-green-004","t":1761200000,"tier":"GREEN","rules":[],"am":24,"rr":28,"fd":1}"`;

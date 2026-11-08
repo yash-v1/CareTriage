@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 // Reverse mappings based on docs/contract.md
 const SYMPTOM_MAP: Record<string, string> = {

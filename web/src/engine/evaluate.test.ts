@@ -123,6 +123,7 @@ describe("triageOffline", () => {
     const response = triageOffline("r-7f3a21", fields, RULES, ["gestWeeks"]);
     expect(Object.keys(response).sort()).toEqual(
       [
+        "defaultApplied",
         "disclaimer",
         "fields",
         "lowConfidence",
